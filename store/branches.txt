@@ -1,0 +1,6 @@
+1,mukamira branch
+2,Bugesera branch
+3,Nyanza Branch
+4,RCA Branch
+5,Burera Branch
+6,Gisenyi Branch
