@@ -33,9 +33,10 @@ class Transaction : Model
 public:
     int id;
     int account_id;
+    int receiver_id;
     double amount;
     int branch_id;
+    long int date;
     string type;
     string description;
-    long int date;
 };

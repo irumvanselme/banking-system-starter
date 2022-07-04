@@ -10,7 +10,7 @@ public:
         fstream file;
         file.open(get_file_path(), ios::app | ios::out);
 
-        file << next_id() << "," << transaction.account_id << "," << transaction.amount << "," << transaction.type << "," << transaction.description << "," << transaction.date << "\n";
+        file << next_id() << "," << transaction.account_id << "," << transaction.receiver_id << "," << transaction.amount << "," << transaction.branch_id << "," << transaction.date << "," << transaction.type << "," << transaction.description << "\n";
 
         file.close();
     }
@@ -38,10 +38,13 @@ public:
 
             transaction.id = stoi(fields[0]);
             transaction.account_id = stoi(fields[1]);
-            transaction.amount = stod(fields[2]);
-            transaction.type = fields[3];
-            transaction.description = fields[4];
+            transaction.receiver_id = stoi(fields[2]);
+
+            transaction.amount = stod(fields[3]);
+            transaction.branch_id = stoi(fields[4]);
             transaction.date = stol(fields[5]);
+            transaction.type = fields[6];
+            transaction.description = fields[7];
 
             transactions.push_back(transaction);
         }
@@ -88,7 +91,7 @@ public:
             file.open(get_file_path(), ios::out);
             for (int i = 0; i < transactions.size(); i++)
             {
-                file << transactions[i].id << "," << transactions[i].account_id << "," << transactions[i].amount << "\n";
+                file << transactions[i].id << "," << transactions[i].account_id << "," << transactions[i].receiver_id << "," << transactions[i].amount << "," << transactions[i].branch_id << "," << transactions[i].date << "," << transactions[i].type << "," << transactions[i].description << "\n";
             }
 
             file.close();
@@ -110,7 +113,7 @@ public:
         file.open(get_file_path(), ios::out);
         for (int i = 0; i < updated_transactions.size(); i++)
         {
-            file << updated_transactions[i].id << "," << updated_transactions[i].account_id << "," << updated_transactions[i].amount << "\n";
+            file << updated_transactions[i].id << "," << updated_transactions[i].account_id << "," << updated_transactions[i].receiver_id << "," << updated_transactions[i].amount << "," << updated_transactions[i].branch_id << "," << updated_transactions[i].date << "," << updated_transactions[i].type << "," << updated_transactions[i].description << "\n";
         }
 
         file.close();

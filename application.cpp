@@ -72,9 +72,10 @@ public:
             Transaction transaction;
             transaction.account_id = account_id;
             transaction.branch_id = branch_id;
+            transaction.receiver_id = -1;
             transaction.amount = balance;
             transaction.type = "DEPOSIT";
-            transaction.description = "Deposit money [branch: " + branch.name + "]";
+            transaction.description = "Deposit money";
             transaction.date = now;
 
             transactionsService.store(transaction);
@@ -86,6 +87,17 @@ public:
             // string description = Mapper::input<string>("Enter the description");
 
             Account account = accountService.get_by_id(account_id);
+
+            if (account.amount < balance)
+            {
+                cout << "\n\n===== "
+                     << "\033[31m"
+                     << "You don't have enough money to withdraw"
+                     << "\033[0m"
+                     << " =====\n\n\n";
+                goto branch;
+            }
+
             // update the account balance
             account.amount -= balance;
             accountService.update(account_id, account);
@@ -93,17 +105,61 @@ public:
             // create a new transaction
             Transaction transaction;
             transaction.account_id = account_id;
+            transaction.receiver_id = -1;
             transaction.branch_id = branch_id;
             transaction.amount = balance;
             transaction.type = "WITHDRAW";
-            transaction.description = "Withdraw money [branch: " + branch.name + "]";
+            transaction.description = "Withdraw money";
             transaction.date = now;
 
             transactionsService.store(transaction);
         }
         else if (choice == 4)
         {
-            // do something
+            int sender_id = Mapper::input<int>("Enter the sending account number :");
+            int receiver_id = Mapper::input<int>("Enter the receiving account number :");
+            double balance = Mapper::input<double>("Enter the amount to send :");
+
+            if (sender_id == receiver_id)
+            {
+                cout << "\n\n===== "
+                     << "\033[31m"
+                     << "You can't send money to yourself"
+                     << "\033[0m"
+                     << " =====\n\n\n";
+                goto branch;
+            }
+
+            Account sender = accountService.get_by_id(sender_id);
+            Account receiver = accountService.get_by_id(receiver_id);
+
+            if (sender.amount < balance)
+            {
+                cout << "\n\n===== "
+                     << "\033[31m"
+                     << "You don't have enough money to send"
+                     << "\033[0m"
+                     << " =====\n\n\n";
+                goto branch;
+            }
+
+            // update the account balance
+            sender.amount -= balance;
+            accountService.update(sender_id, sender);
+            receiver.amount += balance;
+            accountService.update(receiver_id, receiver);
+
+            // create a new transaction
+            Transaction transaction;
+            transaction.account_id = sender_id;
+            transaction.receiver_id = receiver_id;
+            transaction.branch_id = branch_id;
+            transaction.amount = balance;
+            transaction.type = "TRANSFER";
+            transaction.description = "Transfer money";
+            transaction.date = now;
+
+            transactionsService.store(transaction);
         }
         else if (choice == 5)
         {
