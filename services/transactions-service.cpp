@@ -64,7 +64,6 @@ public:
             tm *time = localtime(&transaction.date);
             int day = time->tm_mday;
 
-            cout << "<<<<<<<<<<<<" << day << endl;
             if (day == date)
             {
                 filtered_transactions.push_back(transaction);

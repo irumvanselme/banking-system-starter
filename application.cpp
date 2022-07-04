@@ -171,12 +171,12 @@ public:
 
             vector<Transaction> transactions = transactionsService.find_by_date(date);
 
-            cout << setw(10) << "ID" << setw(10) << "Account" << setw(10) << "Receiver" << setw(10) << "Branch" << setw(10) << "Amount" << setw(10) << "Type" << setw(20) << "Description" << setw(45) << "Date " << endl;
-            cout << "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+            cout << setw(20) << "Account" << setw(20) << "Receiver" << setw(20) << "Branch" << setw(10) << "Amount" << setw(10) << "Type" << setw(20) << "Description" << setw(45) << "Date " << endl;
+            cout << "-------------------------------------------------------------------------------------------------------------------------------------\n";
 
             for (Transaction transaction : transactions)
             {
-                cout << setw(10) << transaction.id << setw(10) << transaction.account_id << setw(10) << transaction.receiver_id << setw(10) << transaction.branch_id << setw(10) << transaction.amount << setw(10) << transaction.type << setw(20) << transaction.description << setw(45) << ctime(&transaction.date);
+                cout << setw(20) << accountService.get_by_id(transaction.account_id).name << setw(20) << accountService.get_by_id(transaction.receiver_id).name << setw(20) << branchService.find_by_id(transaction.branch_id).name << setw(10) << transaction.amount << setw(10) << transaction.type << setw(20) << transaction.description << setw(45) << ctime(&transaction.date);
             }
         }
         else if (choice == 6)
@@ -198,10 +198,10 @@ public:
                 }
             }
 
-            cout << setw(20) << "Account number" << setw(20) << "Full names" << setw(20) << "Balance" << endl;
+            cout << setw(20) << "Account number" << setw(20) << "Full names" << setw(20) << "Balance" << setw(20) << "Registered on Branch" << endl;
             for (Account account : accounts)
             {
-                cout << setw(20) << account.id << setw(20) << account.name << setw(20) << account.amount << endl;
+                cout << setw(20) << account.id << setw(20) << account.name << setw(20) << account.amount << setw(20) << branchService.find_by_id(account.registered_on_branch_id).name << endl;
             }
         }
         else if (choice == -1)
