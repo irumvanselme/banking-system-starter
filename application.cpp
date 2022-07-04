@@ -52,10 +52,30 @@ public:
         cin >> choice;
 
         if (choice == 1)
-            accountService.store(Mapper::get_account_info(branch_id));
+        {
+            int account_number = accountService.store(Mapper::get_account_info(branch_id));
+            cout << "Your account number is : " << account_number << endl;
+        }
         else if (choice == 2)
         {
-            // do something
+            int account_id = Mapper::input<int>("Enter the account number");
+            double balance = Mapper::input<double>("Enter the amount to deposit");
+            // string description = Mapper::input<string>("Enter the description");
+
+            Account account = accountService.get_by_id(account_id);
+            // update the account balance
+            account.amount += balance;
+            accountService.update(account_id, account);
+
+            // create a new transaction
+            Transaction transaction;
+            transaction.account_id = account_id;
+            transaction.amount = balance;
+            transaction.type = "DEPOSIT";
+            transaction.description = "Deposit money [branch: " + branch.name + "]";
+            transaction.date = "Today";
+
+            transactionsService.store(transaction);
         }
         else if (choice == 3)
         {

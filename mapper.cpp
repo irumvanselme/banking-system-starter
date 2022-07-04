@@ -3,6 +3,15 @@
 class Mapper
 {
 public:
+    template <typename T>
+    static T input(string label)
+    {
+        T account_number;
+        cout << label << "\n>";
+        cin >> account_number;
+        return account_number;
+    }
+
     static Branch get_branch_dto()
     {
         Branch branch;
