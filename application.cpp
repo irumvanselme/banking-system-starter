@@ -45,11 +45,13 @@ public:
 
         int choice = -1;
 
+    menu:
         cout << "[1] Create a new Account" << endl;
         cout << "[2] Deposit money" << endl;
         cout << "[3] Withdraw money" << endl;
         cout << "[4] Transfer money" << endl;
         cout << "[5] View all transfers" << endl;
+        cout << "[6] View all transaction [sorted by balance]" << endl;
         cout << "[-1] Exist the System \n>";
         cin >> choice;
 
@@ -177,6 +179,31 @@ public:
                 cout << setw(10) << transaction.id << setw(10) << transaction.account_id << setw(10) << transaction.receiver_id << setw(10) << transaction.branch_id << setw(10) << transaction.amount << setw(10) << transaction.type << setw(20) << transaction.description << setw(45) << ctime(&transaction.date);
             }
         }
+        else if (choice == 6)
+        {
+            cout << "Tring to print the accounts in a sorted manner" << endl;
+
+            vector<Account> accounts = accountService.get_all();
+
+            for (int i = 0; i < accounts.size(); i++)
+            {
+                for (int j = i + 1; j < accounts.size(); j++)
+                {
+                    if (accounts[i].amount < accounts[j].amount)
+                    {
+                        Account temp = accounts[i];
+                        accounts[i] = accounts[j];
+                        accounts[j] = temp;
+                    }
+                }
+            }
+
+            cout << setw(20) << "Account number" << setw(20) << "Full names" << setw(20) << "Balance" << endl;
+            for (Account account : accounts)
+            {
+                cout << setw(20) << account.id << setw(20) << account.name << setw(20) << account.amount << endl;
+            }
+        }
         else if (choice == -1)
         {
             cout << "\n\n\n\n\033[31m"
@@ -192,6 +219,9 @@ public:
         }
 
         cout << "\n\n\n";
+        int k = 1 / 2;
+
+        goto menu;
     }
 
 private:
