@@ -1,4 +1,4 @@
-#include "./models.cpp"
+#include "./models.h"
 
 class Mapper
 {
