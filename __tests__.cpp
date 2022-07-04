@@ -1,12 +1,13 @@
 #include <iostream>
-#include <thread>
-#include <future>
+#include <ctime>
 
 using namespace std;
 
 int main()
 {
-    Sleep(10);
-    cout << "Hello this is the main" << endl;
+    time_t now = time(0);
+
+    cout << ctime(&now) << endl;
+
     return 0;
 }
