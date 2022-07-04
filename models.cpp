@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <ctime>
 
 #pragma once
 
@@ -36,5 +37,5 @@ public:
     int branch_id;
     string type;
     string description;
-    string date;
+    long int date;
 };

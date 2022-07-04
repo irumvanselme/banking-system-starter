@@ -41,7 +41,7 @@ public:
             transaction.amount = stod(fields[2]);
             transaction.type = fields[3];
             transaction.description = fields[4];
-            transaction.date = fields[5];
+            transaction.date = stol(fields[5]);
 
             transactions.push_back(transaction);
         }

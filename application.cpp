@@ -16,6 +16,7 @@ private:
 public:
     void run()
     {
+        time_t now = time(0);
     welcome:
         system("clear");
         cout << "Welcome to the Banking System \n\n\n";
@@ -70,16 +71,35 @@ public:
             // create a new transaction
             Transaction transaction;
             transaction.account_id = account_id;
+            transaction.branch_id = branch_id;
             transaction.amount = balance;
             transaction.type = "DEPOSIT";
             transaction.description = "Deposit money [branch: " + branch.name + "]";
-            transaction.date = "Today";
+            transaction.date = now;
 
             transactionsService.store(transaction);
         }
         else if (choice == 3)
         {
-            // do something
+            int account_id = Mapper::input<int>("Enter the account number");
+            double balance = Mapper::input<double>("Enter the amount to withdraw");
+            // string description = Mapper::input<string>("Enter the description");
+
+            Account account = accountService.get_by_id(account_id);
+            // update the account balance
+            account.amount -= balance;
+            accountService.update(account_id, account);
+
+            // create a new transaction
+            Transaction transaction;
+            transaction.account_id = account_id;
+            transaction.branch_id = branch_id;
+            transaction.amount = balance;
+            transaction.type = "WITHDRAW";
+            transaction.description = "Withdraw money [branch: " + branch.name + "]";
+            transaction.date = now;
+
+            transactionsService.store(transaction);
         }
         else if (choice == 4)
         {
