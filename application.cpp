@@ -49,7 +49,8 @@ public:
         cout << "[2] Deposit money" << endl;
         cout << "[3] Withdraw money" << endl;
         cout << "[4] Transfer money" << endl;
-        cout << "[5] Exist the System \n>";
+        cout << "[5] View all transfers" << endl;
+        cout << "[-1] Exist the System \n>";
         cin >> choice;
 
         if (choice == 1)
@@ -162,6 +163,21 @@ public:
             transactionsService.store(transaction);
         }
         else if (choice == 5)
+        {
+
+            int date = 4;
+
+            vector<Transaction> transactions = transactionsService.find_by_date(date);
+
+            cout << setw(10) << "ID" << setw(10) << "Account" << setw(10) << "Receiver" << setw(10) << "Branch" << setw(10) << "Amount" << setw(10) << "Type" << setw(20) << "Description" << setw(45) << "Date " << endl;
+            cout << "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
+
+            for (Transaction transaction : transactions)
+            {
+                cout << setw(10) << transaction.id << setw(10) << transaction.account_id << setw(10) << transaction.receiver_id << setw(10) << transaction.branch_id << setw(10) << transaction.amount << setw(10) << transaction.type << setw(20) << transaction.description << setw(45) << ctime(&transaction.date);
+            }
+        }
+        else if (choice == -1)
         {
             cout << "\n\n\n\n\033[31m"
                  << "Thanks for using our system."

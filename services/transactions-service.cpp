@@ -54,6 +54,26 @@ public:
         return transactions;
     }
 
+    vector<Transaction> find_by_date(int date)
+    {
+        vector<Transaction> transactions = get_all();
+        vector<Transaction> filtered_transactions;
+
+        for (Transaction transaction : transactions)
+        {
+            tm *time = localtime(&transaction.date);
+            int day = time->tm_mday;
+
+            cout << "<<<<<<<<<<<<" << day << endl;
+            if (day == date)
+            {
+                filtered_transactions.push_back(transaction);
+            }
+        }
+
+        return filtered_transactions;
+    }
+
     Transaction get_by_id(int id)
     {
         vector<Transaction> transactions = get_all();
