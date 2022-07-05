@@ -1,13 +1,20 @@
 #include <iostream>
 #include <ctime>
+#include <time.h>
 
 using namespace std;
 
+string generate_account_number()
+{
+    return "No account number";
+}
+
 int main()
 {
-    time_t now = time(0);
+    string account_number = generate_account_number();
 
-    cout << ctime(&now) << endl;
+    srand(time(NULL));
 
+    cout << rand() % 10 << endl;
     return 0;
 }
